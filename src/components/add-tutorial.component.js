@@ -1,3 +1,11 @@
+/*Create React Components
+Now we’re gonna build 3 components corresponding to 3 Routes defined before.
+
+Add item Component
+This component has a Form to submit new Tutorial with 2 fields: title & description.
+
+components/add-tutorial.component.js
+*/
 import React, { Component } from "react";
 import TutorialDataService from "../services/tutorial.service";
 
@@ -5,41 +13,61 @@ import { TextField, Button, withStyles } from "@material-ui/core"
 import { styles } from "../css-common"
 
 class AddTutorial extends Component {
+
+    /*First, we define the constructor and set initial state, bind this to the different events.*/
     constructor(props) {
         super(props);
+        /*Because there are 2 fields, so we create 2 functions to track the values of the input...*/
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
+        /*and set that state for changes*/
         this.saveTutorial = this.saveTutorial.bind(this);
         this.newTutorial = this.newTutorial.bind(this);
 
+        //Initialize the state
         this.state = {
             id: null,
             title: "",
             description: "",
             published: false,
-
             submitted: false
         };
     }
 
+    //handles title Form changes
     onChangeTitle(e) {
         this.setState({
             title: e.target.value
         });
     }
 
+    //handles description Form changes
     onChangeDescription(e) {
         this.setState({
             description: e.target.value
         });
     }
+    //newTutorial() updates the state in memory
+    newTutorial() {
+        this.setState({
+            id: null,
+            title: "",
+            description: "",
+            published: false,
 
+            submitted: false
+        });
+    }
+    //saveTutorial() attends to update state in the database
     saveTutorial() {
         var data = {
             title: this.state.title,
             description: this.state.description
         };
 
+        /*
+        TODO: explain wha the TutorialDataService does
+        We also have a function to get value of the form (state) and send the POST request to the Web API. It calls TutorialDataService.create() method.*/
         TutorialDataService.create(data)
             .then(response => {
                 this.setState({
@@ -57,17 +85,8 @@ class AddTutorial extends Component {
             });
     }
 
-    newTutorial() {
-        this.setState({
-            id: null,
-            title: "",
-            description: "",
-            published: false,
-
-            submitted: false
-        });
-    }
-
+    /*For render() method, we check the submitted state, if it is true, we show Add button for creating new
+     Tutorial again. Otherwise, a Form will display.*/
     render() {
         const { classes } = this.props
 

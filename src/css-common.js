@@ -1,3 +1,6 @@
+//Material UI Styling
+//This javascript file export an object that includes className of many components,
+// the key is the className and nested object is css attribute named in camel case:
 export const styles = {
     appBar: {
         backgroundColor: "#343A40",

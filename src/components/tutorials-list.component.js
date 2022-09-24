@@ -1,3 +1,9 @@
+/*List of items Component
+This component has:
+
+a search bar for finding Tutorials by title.
+a tutorials array displayed as a list on the left.
+a selected Tutorial which is shown on the right.*/
 import React, { Component } from "react";
 import TutorialDataService from "../services/tutorial.service";
 import { Link } from "react-router-dom";
@@ -6,6 +12,20 @@ import { styles } from "../css-common"
 import { TextField, Button, Grid, ListItem, withStyles } from "@material-ui/core";
 
 class TutorialsList extends Component {
+
+  /*So we will have following state:
+
+    searchTitle
+    tutorials
+    currentTutorial and currentIndex
+    We also need to use 3 TutorialDataService methods:
+
+    getAll()
+    deleteAll()
+    findByTitle()
+    components/tutorials-list.component.js*/
+
+  /*First, we define the constructor and set initial state, bind this to the different events.*/
   constructor(props) {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
@@ -15,6 +35,12 @@ class TutorialsList extends Component {
     this.removeAllTutorials = this.removeAllTutorials.bind(this);
     this.searchTitle = this.searchTitle.bind(this);
 
+    /*So we will have following state:
+
+    searchTitle
+    tutorials
+    currentTutorial
+    currentIndex*/
     this.state = {
       tutorials: [],
       currentTutorial: null,
@@ -23,11 +49,14 @@ class TutorialsList extends Component {
     };
   }
 
+  //TODO: what is componentDidMount?
   componentDidMount() {
     this.retrieveTutorials();
   }
 
+  //define the functions to handle the events.
   onChangeSearchTitle(e) {
+
     const searchTitle = e.target.value;
 
     this.setState({
@@ -35,6 +64,7 @@ class TutorialsList extends Component {
     });
   }
 
+  /* We also need to use 3 TutorialDataService methods:*/
   retrieveTutorials() {
     TutorialDataService.getAll()
       .then(response => {
@@ -118,7 +148,7 @@ class TutorialsList extends Component {
                     selected={index === currentIndex}
                     onClick={() => this.setActiveTutorial(tutorial, index)}
                     divider
-                    button	
+                    button
                     key={index}>
                     {tutorial.title}
                   </ListItem>
